@@ -1,0 +1,27 @@
+SSRF (Server-Side Request Forgery)
+SSRF happens when a server fetches a URL you control,
+and you trick it into requesting internal or restricted stuff.
+
+Your basically using the server like a puppet to talk to things you shouldn’t reach.
+
+Why It’s Dangerous:
+Access localhost services (e.g. 127.0.0.1, http://metadata.google.internal)
+
+hit admin panels, internal APIs, or cloud metadata
+
+Chain it with other bugs to bypass firewalls or leak data
+
+Example Attack URL:
+https://vulnerable-site.com/fetch?url=http://127.0.0.1:8000
+If that app blindly grabs the URL you give it?
+You just made it request its own localhost.
+
+Common Targets:
+http://localhost
+
+http://127.0.0.1
+
+http://169.254.169.254 ← cloud creds
+
+Internal hostnames like http://intranet.local/admin
+

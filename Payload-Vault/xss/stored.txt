@@ -1,0 +1,14 @@
+Stored XSS happens when your script payload gets saved on the server 
+and executes for everyone who views the content.
+Stored XSS is the most dangerous/valuable XSS Attack
+_____________________
+Example Payload:
+----------------------
+<script>alert('pwned')</script>
+<img src=x onerror=alert('stored')>
+<svg/onload=confirm(1337)>
+
+This runs a popup when script tag is parsed and executed by the browser
+It triggers an alert when image fails to load and runs the onerror event handler
+When the page loads, the fake SVG tag tricks the browser into popping up a message box.
+

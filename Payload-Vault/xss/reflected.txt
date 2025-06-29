@@ -1,0 +1,27 @@
+Reflected XSS
+Reflected XSS happens when your payload gets echoed right back
+in the response without being stored.
+
+it only runs when the victim clicks a special link
+with your payload already inside the URL.
+
+Reflected XSS is useful for phishing, stealing cookies,
+or quick popups but not persistent as stored is.
+
+Example Payloads:
+<script>alert('xss')</script>
+"><img src=x onerror=alert('reflected')>
+"><svg/onload=confirm(999)>
+
+Example URLs:
+https://example.com/search?q=<script>alert('xss')</script>
+https://example.com/profile?name="><img src=x onerror=alert('reflected')>
+https://example.com/view?item="><svg/onload=confirm(999)>
+
+What They Do:
+
+First one runs a popup instantly when injected into a reflected spot like a search box.
+
+Second one uses a broken image to trigger a popup with onerror event.
+
+Third one uses a fake SVG that fires onload and shows a confirm box.

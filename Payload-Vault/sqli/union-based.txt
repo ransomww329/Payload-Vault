@@ -1,0 +1,33 @@
+Union-Based SQLi — What Is It
+Union-based SQL injection lets you attach your own SELECT query to the original using UNION.
+If the site displays DB results on the page, you can inject your own — like usernames, hashes, emails, whatever.
+
+When Does It Work
+
+The app builds SQL dynamically (example: SELECT * FROM users WHERE id=1).
+
+Your input gets reflected on the page.
+
+You can match the number and types of columns in the original query.
+
+How to Tell if SQL is Dynamic
+Find a URL parameter you control, like ?id=1.
+Try changing it to 1' or adding logic like AND 1=1.
+If the page reacts, breaks, or shows errors, the query is dynamic.
+
+How to Use It
+You test with UNION SELECT and keep tweaking until the page loads without errors — that tells you the number of columns.
+Once it works, replace the placeholders with real data like username or password.
+If you see that data in the page, you’ve got a working injection.
+
+Finding the Right Number of Columns
+Use tricks like ORDER BY or keep adding values in UNION SELECT until it stops throwing errors.
+The page loading normally tells you you’ve matched the structure.
+
+Why Union SQLi Is Useful
+
+Fastest way to dump visible data.
+
+Works great when app reflects output on the page.
+
+You can extract full tables like users, emails, login data.

@@ -1,0 +1,40 @@
+Error-Based SQLi — What Is It?
+Error-based SQL injection is when you force the database to throw an error, and that error reveals data right in the page.
+
+Unlike Blind SQLi, where you get no feedback, this one just dumps info in your face if the site shows DB errors.
+
+When Does This Work?
+Site doesn’t sanitize input
+
+Errors aren’t hidden
+
+You inject something, and the database complains loudly
+
+So you use that loudmouth error to your advantage 
+
+Example Payloads
+
+?id=1'       → Breaks query, gives SQL error  
+?id=1' AND 1=1--  → Works fine  
+?id=1' AND 1=2--  → Might break
+
+?id=1' AND (SELECT 1 FROM (SELECT COUNT(*), CONCAT(username, 0x3a, password) FROM users) AS temp)--  
+That one tries to force the DB to error out while combining username:password in the error message.
+
+Errors Might Reveal
+
+--SQL syntax
+
+--Table/column names
+
+--Actual data in the error
+
+--The DB engine (MySQL, MSSQL, Oracle…)
+
+---Why It’s Useful---
+
+-Fastest way to dump info
+
+-Only works if errors are visible (no filtering)
+
+-Dead giveaway the site’s insecure as hell

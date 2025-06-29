@@ -1,0 +1,28 @@
+LFI — Local File Inclusion means you trick the app into loading files from its own server.
+
+What It Is
+The app lets you include or read local files by controlling a path — like:
+?page=about.html
+Now you try:
+?page=../../../../etc/passwd
+Boom — it reads a system file. That’s LFI.
+
+Where You Find It
+?file=, ?page=, or similar parameters
+
+Apps that use include(), require(), readfile() in PHP
+
+Sometimes combined with upload features
+
+What You Can Do with LFI
+Read sensitive files: /etc/passwd, config files, credentials
+
+Leak source code
+
+Poison logs, then include the log file to get RCE
+
+Chain with upload to execute code (upload shell, include it)
+
+Why It’s Dangerous
+Info disclosure leads to bigger exploits
+Can become RCE with log poisoning
